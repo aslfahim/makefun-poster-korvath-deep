@@ -139,20 +139,21 @@ for (const [rx, rw, lean] of [[120, 54, 60], [300, 30, 44], [470, 70, 74], [640,
 }
 
 // Far trench walls, soft silhouettes at the edges.
-shape([[0, 420], [120, 520], [90, 1024], [0, 1024]], rgb("#07293f"), 0.85);
-shape([[768, 380], [640, 500], [676, 1024], [768, 1024]], rgb("#07293f"), 0.85);
+shape([[0, 470], [104, 560], [74, 1024], [0, 1024]], rgb("#07293f"), 0.5);
+shape([[768, 430], [656, 540], [690, 1024], [768, 1024]], rgb("#07293f"), 0.5);
 
 // The great spiral shell tower: stacked, shrinking arcs of shell with a
 // glowing seam, ringed by windows like portholes of a ship that stayed.
 const TCX = 392, TTOP = 268, TBASE = 872;
 halo(TCX, 560, 250, 330, rgb("#2e7ea6"), 0.30);
-for (let i = 0; i < 15; i++) {
-  const t = i / 15;
+for (let i = 0; i < 22; i++) {
+  const t = i / 22;
   const y = TTOP + (TBASE - TTOP) * t;
-  const wdt = 30 + 168 * Math.pow(t, 0.8);
+  const wdt = 26 + 176 * Math.pow(t, 0.85) * (1 + 0.10 * Math.sin(t * 9));
+  const sway = Math.sin(t * 5.2) * 10 * t;
   const shellC = blend(rgb("#e8d9b0"), rgb("#b98a5e"), t);
-  oval(TCX, y, wdt, 26 - t * 6, shellC, 1);
-  oval(TCX, y - 4, wdt * 0.94, 20 - t * 5, blend(shellC, rgb("#fff3d0"), 0.35), 0.8);
+  oval(TCX + sway, y, wdt, 24 - t * 5, shellC, 1);
+  oval(TCX + sway, y - 4, wdt * 0.94, 18 - t * 4, blend(shellC, rgb("#fff3d0"), 0.35), 0.8);
   // Porthole windows ride each whorl, lit amber.
   const n = Math.max(1, Math.round(wdt / 34));
   for (let j = 0; j < n; j++) {
@@ -180,14 +181,14 @@ dome(96, 884, 34);
 
 // Coral and rock along the seabed.
 shape([[0, 930], [140, 896], [330, 922], [520, 898], [768, 928], [768, 1024], [0, 1024]], rgb("#0a2e47"), 1);
-for (let i = 0; i < 26; i++) {
-  const x = rand() * CW;
-  const y = 916 + rand() * 60;
-  const h = 14 + rand() * 30;
+// Coral tufts kept to the far corners, clear of the name.
+for (let i = 0; i < 14; i++) {
+  const x = i % 2 === 0 ? rand() * 92 : CW - rand() * 92;
+  const y = 946 + rand() * 44;
+  const h = 10 + rand() * 18;
   const cc = [rgb("#e2703a"), rgb("#d95763"), rgb("#e8a56b")][i % 3];
-  stroke(x, y + h, x + (rand() - 0.5) * 14, y, 4, cc, 0.9);
-  blob(x + (rand() - 0.5) * 14, y, 3.6, cc, 0.95);
-  stroke(x, y + h, x + 10 + rand() * 8, y + h * 0.4, 3.4, cc, 0.8);
+  stroke(x, y + h, x + (rand() - 0.5) * 10, y, 3.4, cc, 0.9);
+  blob(x + (rand() - 0.5) * 10, y, 3, cc, 0.95);
 }
 
 // Jellyfish drifting up the left shaft of light, bells and trailing threads.
